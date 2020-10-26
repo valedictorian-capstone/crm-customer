@@ -1,0 +1,15 @@
+{
+    "hosting": {
+        "target": "m-crm-customer",
+        "public": "dist/crm-customer",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [{
+            "source": "**",
+            "destination": "/index.html"
+        }]
+    }
+}
