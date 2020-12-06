@@ -1,0 +1,81 @@
+<nb-layout>
+    <nb-layout-column style="padding: 0; position: relative;">
+        <header>
+            <img class="logo" src="assets/logo-white.png" />
+            <button (click)="useLink('')" style="position: absolute; left: 56px;" nbButton shape="round">
+              <nb-icon icon="home-outline"></nb-icon>
+            </button>
+            <button (click)="useLink('event')" style="position: absolute; left: calc(56px + 3rem);" nbButton shape="round">
+              <nb-icon icon="calendar-outline"></nb-icon>
+            </button>
+            <app-breadcrumb></app-breadcrumb>
+            <app-notification *ngIf="customer" [customer]="customer"></app-notification>
+            <app-user *ngIf="customer" [customer]="customer"></app-user>
+            <button (click)="useLogin()" style="position: absolute; right: 1rem;" *ngIf="!customer" nbButton size="small">
+              Login
+            </button>
+        </header>
+        <app-content>
+            <router-outlet></router-outlet>
+        </app-content>
+        <button style="position: absolute; right: 0.5rem; bottom: 2.5rem;" (click)="showChat = !showChat" nbButton status="info" size="large" shape="round">
+          <nb-icon icon="message-circle-outline"></nb-icon>
+        </button>
+        <app-chat [showChat]="showChat" (useClose)="showChat = false"></app-chat>
+        <button (click)="useContact(goToLoginRef, contactRef)" style="position: absolute; right: 0.5rem; bottom: 6rem;" nbButton status="warning" size="large" shape="round">
+          <nb-icon icon="question-mark-circle-outline"></nb-icon>
+        </button>
+        <button style="position: absolute; right: 0.5rem; bottom: 9.5rem;" (click)="usePhone()" nbButton status="success" size="large" shape="round">
+          <nb-icon icon="phone-outline"></nb-icon>
+        </button>
+        <ng-template #globalCreatRef let-context let-ref="dialogRef">
+            <app-reuse-mail-sender *ngIf="context.type === 'mail'" [email]="context.payload.email" (useClose)="ref.close()"></app-reuse-mail-sender>
+            <app-reuse-setting-profile *ngIf="context.type === 'setting-profile'" (useClose)="ref.close()"></app-reuse-setting-profile>
+            <app-reuse-setting-password *ngIf="context.type === 'setting-password'" (useClose)="ref.close()"></app-reuse-setting-password>
+        </ng-template>
+    </nb-layout-column>
+</nb-layout>
+<ng-template #goToLoginRef let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>
+            You not log in yet!
+            <button (click)="ref.close()" style="float:right" nbButton size="tiny">
+          <nb-icon icon="close"></nb-icon>
+        </button>
+        </nb-card-header>
+        <nb-card-body>Please log in to get support!</nb-card-body>
+        <nb-card-footer class="p-2 text-center">
+            <button status="primary" nbButton size="small" (click)="ref.close(); useLogin()">
+          Go to Login Page
+        </button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+<ng-template #contactRef let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>
+            Support form
+            <button (click)="ref.close()" style="float:right" nbButton size="tiny">
+          <nb-icon icon="close"></nb-icon>
+        </button>
+        </nb-card-header>
+        <nb-card-body>
+            <span style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Support about</span>
+            <nb-form-field style="max-width: 100%; margin-bottom: 1rem;">
+                <nb-icon nbPrefix icon="question-mark-circle-outline" x></nb-icon>
+                <nb-select style="width: 100%;" fullWidth [(ngModel)]="type">
+                    <nb-option value="deal">Product & Service</nb-option>
+                    <nb-option value="orther">Orther</nb-option>
+                </nb-select>
+            </nb-form-field>
+            <nb-form-field style="width: 100%;">
+                <textarea #area placeHolder="Write something you want to support for this product (Optional) or only click send" fullWidth [(ngModel)]="description" rows="7" nbInput></textarea>
+            </nb-form-field>
+        </nb-card-body>
+        <nb-card-footer class="p-2 text-center">
+            <button status="primary" nbButton size="small" (click)="useSupport(ref)">
+          Send
+        </button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>

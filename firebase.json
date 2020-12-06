@@ -1,6 +1,6 @@
 {
     "hosting": {
-        "target": "m-crm-customer",
+        "target": "m-crm-app",
         "public": "dist/crm-customer",
         "ignore": [
             "firebase.json",

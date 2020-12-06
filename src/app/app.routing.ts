@@ -13,7 +13,6 @@ const routes: Routes = [
   {
     path: 'core',
     loadChildren: () => import('src/app/modules').then((m) => m.CoreModule),
-    canLoad: []
   },
 ];
 

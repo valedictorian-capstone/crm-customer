@@ -1,0 +1,57 @@
+.crm-product {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    position: relative;
+    .crm-product-filter {
+        width: 85%;
+        margin: 1rem auto 0 auto;
+        min-height: 7rem;
+        height: fit-content;
+        padding: 1rem;
+        overflow-x: auto;
+        display: flex;
+        max-width: 90%;
+        white-space: nowrap;
+        &::-webkit-scrollbar {
+            width: 0 !important;
+            display: none;
+        }
+        .item {
+            display: inline-table;
+            width: 7rem;
+            height: 7rem;
+            &:not(:last-child) {
+                margin-right: 1rem;
+            }
+            text-align: center;
+            border-radius: 10px;
+            font: 600 13px/16px monospace,
+            sans-serif;
+            color: #747678;
+            background: white;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            &.choosen {
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+            }
+            .item-flex {
+                width: 100%;
+                height: 100%;
+                white-space: break-spaces;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+    .crm-product-body {
+        margin: 0 0 5rem 0;
+        height: fit-content;
+        min-height: 100%;
+        float: left;
+        width: 100%;
+        padding: 1rem;
+        position: relative;
+    }
+}

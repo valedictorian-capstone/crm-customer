@@ -1,0 +1,85 @@
+<div class="chat" [style.display]="!showChat ? 'none' : null">
+    <div class="header">
+        <img src="assets/logo-black.png" />
+        <b class="ml-2">CRM Support Bot</b>
+        <button (click)="useClose.emit()" style="position: absolute; right: 0.5rem" nbButton size="small">
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
+    </div>
+    <div class="content" id="content" #ref (scroll)="useScroll(ref)">
+        <div *ngFor="let message of messages | async" class="message" [class.user]="!message.isBot">
+            <img *ngIf="message.isBot" src="assets/logo-black.png" />
+            <div class="text" *ngIf="message.text">
+                {{message.text}}
+            </div>
+            <div class="custom" *ngIf="message.custom">
+                <div class="product" *ngFor="let product of message.custom.data">
+                    <span class="item">
+                    <nb-icon icon="shopping-cart-outline" nbPrefix></nb-icon>
+                    <b>{{product.name}}</b>
+                  </span>
+                    <span class="item">
+                      <nb-icon icon="money-bill-wave" pack="font-awesome" nbPrefix></nb-icon>
+                      <b>₫{{product.price | separator}}</b>
+                    </span>
+                    <button (click)="useContact(goToLoginRef, contactRef)" nbButton fullWidth status="warning" class="mt-2" size="small" shape="round" outline>
+                      <nb-icon icon="question-mark-circle-outline" nbPrefix></nb-icon>
+                      <b>Need Support</b>
+                    </button>
+                    <button (click)="usePhone();" nbButton status="success" class="mt-2" fullWidth size="small" shape="round" outline>
+                      <nb-icon icon="phone-outline" nbPrefix></nb-icon>
+                      <b>Contact</b>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="message" *ngIf="chating">
+            <img src="assets/logo-black.png" />
+            <div class="text">
+                <ngx-spinner [name]="'chating'" bdColor="transparent" size="small" color="black" type="ball-beat" [fullScreen]="false"></ngx-spinner>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <nb-form-field style="width: 100%;">
+            <input (keyup)="useEnter($event, ref)" [(ngModel)]="message" placeholder="Hello!" nbInput fullWidth shape="round" style="height: 2.5rem;" />
+            <nb-icon *ngIf="message !== ''" (click)="useSendMessage(ref)" status="primary" nbSuffix icon="paper-plane-outline"></nb-icon>
+        </nb-form-field>
+    </div>
+</div>
+<ng-template #goToLoginRef let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>
+            You not log in yet!
+            <button (click)="ref.close()" style="float:right" nbButton size="tiny">
+          <nb-icon icon="close"></nb-icon>
+        </button>
+        </nb-card-header>
+        <nb-card-body>Please log in to get support!</nb-card-body>
+        <nb-card-footer class="p-2 text-center">
+            <button status="primary" nbButton size="small" (click)="ref.close(); useLogin()">
+          Go to Login Page
+        </button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+<ng-template #contactRef let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>
+            Support form
+            <button (click)="ref.close()" style="float:right" nbButton size="tiny">
+          <nb-icon icon="close"></nb-icon>
+        </button>
+        </nb-card-header>
+        <nb-card-body>
+            <nb-form-field style="width: 100%;">
+                <textarea #area placeHolder="Write something you want to support for this product (Optional) or only click send" fullWidth [(ngModel)]="description" rows="7" nbInput></textarea>
+            </nb-form-field>
+        </nb-card-body>
+        <nb-card-footer class="p-2 text-center">
+            <button status="primary" nbButton size="small" (click)="useSupport(ref)">
+          Send
+        </button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
