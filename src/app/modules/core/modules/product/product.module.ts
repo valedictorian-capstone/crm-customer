@@ -1,30 +1,36 @@
 import { NgModule } from '@angular/core';
 import { ExtrasModule } from '@extras/extras.module';
 import {
-  ProductCreateComponent,
-  ProductListComponent,
-  ProductUpdateComponent
+  ProductItemComponent,
 } from './components';
-import { ProductRoutes } from './product.routing';
 import {
-  ProductMainComponent,
-  ProductDetailComponent
+  ProductMainPage,
+  ProductDetailPage
 } from './pages';
-
+// import { } from './directives';
+// import { } from './pipes';
+import { ProductRoutes } from './product.routing';
 const COMPONENTS = [
-  ProductCreateComponent,
-  ProductListComponent,
-  ProductUpdateComponent,
+  ProductItemComponent
 ];
+
 const PAGES = [
-  ProductMainComponent,
-  ProductDetailComponent
+  ProductMainPage,
+  ProductDetailPage
+];
+
+const PIPES = [
+
+];
+
+const DIRECTIVES = [
+
 ];
 @NgModule({
   imports: [
-    ExtrasModule.forRoot(),
-    ProductRoutes,
+    ExtrasModule.forChild(),
+    ProductRoutes
   ],
-  declarations: [...COMPONENTS, ...PAGES]
+  declarations: [...PAGES, ...COMPONENTS, ...PIPES, ...DIRECTIVES]
 })
 export class ProductModule { }

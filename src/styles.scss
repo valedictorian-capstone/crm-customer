@@ -1,6 +1,21 @@
-@media (max-width: 576px) {
-     ::-webkit-scrollbar {
-        display: none;
+// @media (max-width: 576px) {
+//      ::-webkit-scrollbar {
+//         display: none;
+//     }
+// }
+@import '~ngx-bar-rating/themes/br-stars-theme';
+@import '~@ctrl/ngx-emoji-mart/picker';
+.emoji-mart-bar {
+    display: none;
+}
+
+* {
+    font-family: Open Sans, sans-serif;
+}
+
+::ng-deep {
+    rc-anchor.rc-anchor-invisible.rc-anchor-light.rc-anchor-invisible-hover {
+        opacity: 0;
     }
 }
 
@@ -23,11 +38,91 @@
     background-color: rgb(91, 155, 213);
 }
 
+.bd-10 {
+    border-radius: 10px;
+}
+
+.create-modal {
+    margin-left: 6rem;
+}
+
+ngx-spinner {
+     ::ng-deep {
+        div.overlay {
+            z-index: 999 !important;
+        }
+    }
+}
+
+nb-form-field.search {
+    nb-spinner {
+        border-radius: 1.5rem !important;
+        span.spin-circle {
+            left: 1rem;
+            position: absolute;
+        }
+    }
+}
+
+nb-form-field.not-search {
+    nb-spinner {
+        border-radius: none !important;
+        span.spin-circle {
+            left: 1rem;
+            position: absolute;
+        }
+    }
+}
+
+#asignee {
+    nz-select-top-control {
+        padding: 0 2.3rem !important;
+    }
+}
+
+.update-modal {
+    margin-left: 6rem;
+}
+
+@media (max-width: 1009px) {
+    .create-modal {
+        margin-left: 0;
+    }
+    .update-modal {
+        margin-left: 0;
+    }
+}
+
 .centered {
     top: 50%;
     left: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
+}
+
+.ant-spin-show-text {
+    max-height: 100vh !important;
+}
+
+.l-1 {
+    left: 1rem !important;
+}
+
+.l-1-half {
+    left: 0.5rem !important;
+}
+
+.button-icon-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover {
+        background: silver;
+    }
 }
 
 @for $size from 1 through 100 {
@@ -230,5 +325,17 @@
     }
     .border-radius-per-#{$size} {
         border-radius: percentage($number: -$size/100);
+    }
+}
+
+nb-form-field {
+    label {
+        position: absolute;
+        top: -0.6rem;
+        text-transform: capitalize;
+        background: aliceblue!important;
+        left: 1rem;
+        font-weight: 600;
+        z-index: 1;
     }
 }

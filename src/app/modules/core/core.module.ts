@@ -1,28 +1,39 @@
 import { NgModule } from '@angular/core';
 import { ExtrasModule } from '@extras/extras.module';
 import {
-  HeaderComponent,
-  MainComponent,
-  SideBarComponent
+  BreadcrumbComponent,
+  ContentComponent,
+  NotificationComponent,
+  UserComponent,
+  ChatComponent
 } from './components';
 import { CoreRoutes } from './core.routing';
-import { LayoutComponent } from './pages';
-
+import { LayoutPage } from './pages';
+import { FullnameShortPipe } from './pipes';
 const COMPONENTS = [
-  HeaderComponent,
-  MainComponent,
-  SideBarComponent,
+  ContentComponent,
+  NotificationComponent,
+  BreadcrumbComponent,
+  UserComponent,
+  ChatComponent
 ];
 
 const PAGES = [
-  LayoutComponent,
+  LayoutPage,
 ];
 
+const PIPES = [
+  FullnameShortPipe
+];
+
+const DIRECTIVES = [
+
+];
 @NgModule({
   imports: [
+    ExtrasModule.forChild(),
     CoreRoutes,
-    ExtrasModule.forRoot(),
   ],
-  declarations: [...PAGES, ...COMPONENTS]
+  declarations: [...PAGES, ...COMPONENTS, ...PIPES, ...DIRECTIVES]
 })
 export class CoreModule { }

@@ -22,7 +22,19 @@
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
                         "allowedCommonJsDependencies": [
-                            "lodash"
+                            "lodash",
+                            "xlsx",
+                            "@ant-design/colors",
+                            "chart.js",
+                            "echarts",
+                            "@firebase/auth",
+                            "@firebase/util",
+                            "@firebase/component",
+                            "firebase/app",
+                            "@firebase/app",
+                            "@firebase/database",
+                            "firebase",
+                            "hammerjs"
                         ],
                         "outputPath": "dist/crm-customer",
                         "index": "src/index.html",
@@ -33,6 +45,7 @@
                         "assets": [
                             "src/favicon.ico",
                             "src/assets",
+                            "src/firebase-messaging-sw.js",
                             {
                                 "glob": "**/*",
                                 "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
@@ -41,6 +54,7 @@
                             "src/manifest.webmanifest"
                         ],
                         "styles": [
+                            "node_modules/angular-calendar/css/angular-calendar.css",
                             "src/styles.scss",
                             "src/assets/styles/ant.theme.less",
                             "src/assets/styles/bootstrap.theme.scss",
@@ -49,7 +63,8 @@
                             "src/assets/styles/prime.theme.scss"
                         ],
                         "scripts": [
-                            "node_modules/quill/dist/quill.js"
+                            "node_modules/quill/dist/quill.js",
+                            "src/assets/latest.sdk.bundle.min.js"
                         ]
                     },
                     "configurations": {
@@ -68,13 +83,13 @@
                             "buildOptimizer": true,
                             "budgets": [{
                                     "type": "initial",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "5mb"
+                                    "maximumWarning": "10mb",
+                                    "maximumError": "10mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "6kb",
-                                    "maximumError": "10kb"
+                                    "maximumWarning": "20kb",
+                                    "maximumError": "20kb"
                                 }
                             ],
                             "serviceWorker": true,
@@ -112,6 +127,7 @@
                             "src/manifest.webmanifest"
                         ],
                         "styles": [
+                            "node_modules/angular-calendar/css/angular-calendar.css",
                             "src/styles.scss"
                         ],
                         "scripts": []
@@ -151,6 +167,7 @@
     },
     "defaultProject": "crm-customer",
     "cli": {
-        "analytics": "93641f1d-5d07-4ab9-9978-8bd50b4e004a"
+        "analytics": "93641f1d-5d07-4ab9-9978-8bd50b4e004a",
+        "defaultCollection": "@ngrx/schematics"
     }
 }

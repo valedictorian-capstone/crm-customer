@@ -1,0 +1,39 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    height: 56px;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid #e5e5e5;
+    img.logo {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 56px;
+        height: 56px;
+    }
+}
+
+nb-card {
+    width: 789px;
+    margin-top: 29px;
+    nb-card-body {
+        max-height: calc(100vh - 238px);
+        overflow: auto;
+    }
+}
+
+@media (max-width: 789px) {
+    nb-card {
+        width: 95vw;
+        &.inside {
+            width: 100%;
+        }
+    }
+}
