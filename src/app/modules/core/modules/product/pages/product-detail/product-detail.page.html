@@ -108,7 +108,7 @@
                     </div>
                     <div class="content">
                         <div class="fullname">
-                            {{comment.customer.fullname}} - <span>{{comment.createdAt | time}}</span>
+                            {{comment.customer.fullname}} - <span>{{comment.createdAt | date: 'EEEE, MMMM d, y, h:mm a'}}</span>
                         </div>
                         <div class="text">
                             {{comment.message}}
