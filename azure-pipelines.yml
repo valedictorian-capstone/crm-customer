@@ -34,3 +34,7 @@ steps:
     appType: 'webApp'
     WebAppName: 'crm-capstone-customer'
     packageForLinux: 'dist/crm-customer'
+    WebConfigParameters: |
+      <?xml version=”1.0"?>
+      <configuration> <system.webServer> <staticContent> <mimeMap fileExtension=”.json” mimeType=”application/json” /> </staticContent> </system.webServer>
+      </configuration>
