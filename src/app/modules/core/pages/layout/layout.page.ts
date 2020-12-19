@@ -51,7 +51,8 @@ export class LayoutPage implements OnInit {
     window.open('tel:' + '0902818547', '_self');
   }
   useLink = (link: string) => {
-    this.router.navigate(['core/' + link]);
+    console.log(link);
+    this.router.navigate([`core/${link}`]);
   }
   useContact = (templateGotoLogin: TemplateRef<any>, templateSupport: TemplateRef<any>) => {
     if (localStorage.getItem(environment.token)) {

@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductService, GlobalService, CategoryService } from '@services';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ProductService, GlobalService, CategoryService, TicketService } from '@services';
 import { CategoryVM, ProductVM } from '@view-models';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { environment } from '@environments/environment';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-main',
@@ -16,11 +19,14 @@ export class ProductMainPage implements OnInit {
   categories: (CategoryVM & { choosen?: boolean })[] = [];
   search = '';
   stage = 'done';
+  description = '';
   showSearch = false;
   constructor(
     protected readonly productService: ProductService,
     protected readonly categoryService: CategoryService,
     protected readonly globalService: GlobalService,
+    protected readonly dialogService: NbDialogService,
+    protected readonly ticketService: TicketService,
     protected readonly spinner: NgxSpinnerService,
     protected readonly router: Router,
   ) {
@@ -39,7 +45,7 @@ export class ProductMainPage implements OnInit {
         })
       )
       .subscribe((data) => {
-        this.products = data;
+        this.products = data.filter((e) => !e.isDelete);
         this.useFilter();
       });
   }
@@ -52,7 +58,8 @@ export class ProductMainPage implements OnInit {
     );
   }
   useSelectItem = (id: string) => {
-    this.router.navigate(['core/home/' + id]);
+    console.log(id);
+    this.router.navigate(['core/product/detail/' + id]);
   }
   useShowSpinner = () => {
     this.spinner.show('product-main');
@@ -61,5 +68,33 @@ export class ProductMainPage implements OnInit {
     setTimeout(() => {
       this.spinner.hide('product-main');
     }, 1000);
+  }
+  useContact = (templateGotoLogin: TemplateRef<any>, templateSupport: TemplateRef<any>, name?: string) => {
+    if (localStorage.getItem(environment.token)) {
+      this.useDialog(templateSupport, name);
+    } else {
+      this.useDialog(templateGotoLogin);
+    }
+  }
+  useDialog = (template: TemplateRef<any>, name?: string) => {
+    this.dialogService.open(template, { closeOnBackdropClick: true, context: {name} });
+  }
+  usePhone = () => {
+    window.open('tel:' + '0902818547', '_self');
+  }
+  useLogin = () => {
+    localStorage.clear();
+    this.router.navigate(['auth/login']);
+  }
+  useSupport = (ref: NbDialogRef<any>, name: string) => {
+    console.log(name);
+    ref.close();
+    this.ticketService.insert({
+      description: this.description + `<br>Service name: ${name}`,
+      type: 'deal',
+    } as any).subscribe(() => {
+      this.description = '';
+      swal.fire('Your support form have been send!', 'Thask for your attention! We will contact you soon!', 'success');
+    });
   }
 }

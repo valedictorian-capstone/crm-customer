@@ -2,6 +2,7 @@ export interface EventVM {
   id: string;
   code: string;
   name: string;
+  image: string;
   description: string;
   dateStart: Date;
   timeStart: Date;
@@ -17,6 +18,7 @@ export interface EventVM {
 export interface EventCM {
   code: string;
   name: string;
+  image: string;
   description: string;
 }
 
@@ -24,5 +26,6 @@ export interface EventUM {
   id: string;
   code: string;
   name: string;
+  image: string;
   description: string;
 }
