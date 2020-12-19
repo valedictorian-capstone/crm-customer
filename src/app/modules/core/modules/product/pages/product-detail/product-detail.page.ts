@@ -82,8 +82,14 @@ export class ProductDetailPage implements OnInit {
     }, 1000);
   }
   useSocket = () => {
-    this.socket.fromEvent('comment-product-' + this.product.id).subscribe((comment: CommentVM) => {
-      this.comments.push(comment);
+    this.commentService.triggerSocket(this.product.id).subscribe((trigger) => {
+      if (trigger.type === 'create') {
+        this.comments.push((trigger.data as CommentVM));
+      } else if (trigger.type === 'update') {
+        this.comments[this.comments.findIndex((e) => e.id === (trigger.data as CommentVM).id)] = (trigger.data as CommentVM);
+      } else if (trigger.type === 'remove') {
+        this.comments.splice(this.comments.findIndex((e) => e.id === (trigger.data as CommentVM).id), 1);
+      }
       this.comments = this.comments.sort((a, b) => new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1);
       this.useSetStar();
     });

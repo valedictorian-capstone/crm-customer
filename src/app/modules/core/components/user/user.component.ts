@@ -30,7 +30,4 @@ export class UserComponent implements OnInit {
   useProfile = () => {
     this.globalService.triggerView$.next({ type: 'setting-profile', payload: {} });
   }
-  usePassword = () => {
-    this.globalService.triggerView$.next({ type: 'setting-password', payload: {} });
-  }
 }
