@@ -47,11 +47,36 @@
     }
     .crm-product-body {
         margin: 0 0 5rem 0;
+        width: 100%;
         height: fit-content;
         min-height: 100%;
         float: left;
         width: 100%;
-        padding: 1rem;
         position: relative;
+    }
+}
+
+nb-card-body {
+    * {
+        font: 600 14px/16px monospace, sans-serif;
+        color: #747678;
+    }
+}
+
+nb-card.card {
+    width: 789px;
+    margin-top: 29px;
+    nb-card-body {
+        max-height: calc(100vh - 238px);
+        overflow: auto;
+    }
+}
+
+@media (max-width: 789px) {
+    nb-card.card {
+        width: 95vw;
+        &.inside {
+            width: 100%;
+        }
     }
 }

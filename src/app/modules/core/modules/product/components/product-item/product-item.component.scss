@@ -41,6 +41,13 @@
 }
 
 nb-card {
+    * {
+        font: 600 14px/16px monospace, sans-serif;
+        color: #747678;
+    }
+}
+
+nb-card.card {
     width: 789px;
     margin-top: 29px;
     nb-card-body {
@@ -50,7 +57,7 @@ nb-card {
 }
 
 @media (max-width: 789px) {
-    nb-card {
+    nb-card.card {
         width: 95vw;
         &.inside {
             width: 100%;

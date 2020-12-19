@@ -7,8 +7,9 @@ import { CommentVM, ProductVM } from '@view-models';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Socket } from 'ngx-socket-io';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { pluck, switchMap, tap, finalize } from 'rxjs/operators';
+import { pluck, switchMap, tap, finalize, catchError } from 'rxjs/operators';
 import swal from 'sweetalert2';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -63,6 +64,11 @@ export class ProductDetailPage implements OnInit {
       switchMap((id) => this.productService.findById(id)),
       tap((data) => {
         this.product = data;
+      }),
+      catchError((err) => {
+        console.log(err);
+        this.router.navigate(['core']);
+        return of(undefined);
       }),
       switchMap((data) => this.commentService.findAll(data.id)),
       tap((data) => {

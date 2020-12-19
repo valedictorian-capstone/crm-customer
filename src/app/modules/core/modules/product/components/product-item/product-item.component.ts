@@ -47,9 +47,10 @@ export class ProductItemComponent implements OnInit {
   useSupport = (ref: NbDialogRef<any>) => {
     ref.close();
     this.ticketService.insert({
-      description: this.description,
+      description: this.description + `<br>Item name: ${this.product.name}`,
       type: 'deal',
     } as any).subscribe((data) => {
+      this.description = '';
       swal.fire('Your support form have been send!', 'Thask for your attention! We will contact you soon!', 'success');
     });
   }

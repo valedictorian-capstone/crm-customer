@@ -1,4 +1,4 @@
-<div class="product-item">
+<!-- <div class="product-item">
     <div class="product-item-image" (click)="useSelected.emit(product)">
         <img *ngIf="product.image" [src]="product.image" />
         <b *ngIf="!product.image">No Image</b>
@@ -25,9 +25,27 @@
           <b>Contact</b>
         </button>
     </div>
-</div>
+</div> -->
+<img (click)="useSelected.emit(product)" [src]="product.image" style="border-radius: 10px 10px 0px 0px;" class="w-100" />
+<nb-card (click)="useSelected.emit(product)" class="w-100">
+    <nb-card-header class="text-center">
+        <b style="font: 600 20px/16px monospace, sans-serif; color: #747678;">{{product.name}}</b>
+        <nb-icon icon="soup" pack="font-awesome" class="ml-2" nbPrefix></nb-icon>
+    </nb-card-header>
+    <nb-card-body style="min-height: 15rem; max-height: 15rem; overflow-y: auto;" [innerHTML]="product.description"></nb-card-body>
+    <nb-card-footer>
+        <button (click)="usePhone();" nbButton status="success" class="float-right" size="small" shape="round" outline>
+      <nb-icon icon="phone-outline" nbPrefix></nb-icon>
+      <b>Contact</b>
+    </button>
+        <button (click)="useContact(goToLoginRef, contactRef)" nbButton status="warning" class="float-right mr-2" size="small" shape="round" outline>
+    <nb-icon icon="question-mark-circle-outline" nbPrefix></nb-icon>
+    <b>Need Support</b>
+  </button>
+    </nb-card-footer>
+</nb-card>
 <ng-template #goToLoginRef let-data let-ref="dialogRef">
-    <nb-card>
+    <nb-card class="card">
         <nb-card-header>
             You not log in yet!
             <button (click)="ref.close()" style="float:right" nbButton size="tiny">
@@ -43,7 +61,7 @@
     </nb-card>
 </ng-template>
 <ng-template #contactRef let-data let-ref="dialogRef">
-    <nb-card>
+    <nb-card class="card">
         <nb-card-header>
             Support form
             <button (click)="ref.close()" style="float:right" nbButton size="tiny">
