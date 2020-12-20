@@ -12,6 +12,6 @@ export class EventService {
   constructor(protected readonly httpClient: HttpClient) { }
 
   public readonly findAll = (): Observable<EventVM[]> => {
-    return this.httpClient.get<EventVM[]>(`${environment.apiEndpont}${environment.api.basic.event.main}`);
+    return this.httpClient.get<EventVM[]>(`${environment.apiEndpont}${environment.api.basic.event.main}/Customer`);
   }
 }
