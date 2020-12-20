@@ -9,8 +9,8 @@
     display: none;
 }
 
-* {
-    font-family: Open Sans, sans-serif;
+*:not(nb-icon):not(button):not(svg):not(g):not(rect):not(path) {
+    font: monospace, sans-serif !important;
 }
 
 ::ng-deep {
