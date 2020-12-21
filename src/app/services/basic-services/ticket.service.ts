@@ -22,6 +22,9 @@ export class TicketService {
   public readonly insert = (data: TicketCM): Observable<TicketVM> => {
     return this.httpClient.post<TicketVM>(`${environment.apiEndpont}${environment.api.basic.ticket.main}`, data);
   }
+  public readonly botInsert = (data: TicketCM): Observable<TicketVM> => {
+    return this.httpClient.post<TicketVM>(`${environment.apiEndpont}${environment.api.basic.ticket.main}/Unauthorized`, data);
+  }
 
   public readonly update = (data: TicketUM): Observable<TicketVM> => {
     return this.httpClient.put<TicketVM>(`${environment.apiEndpont}${environment.api.basic.ticket.main}`, data);

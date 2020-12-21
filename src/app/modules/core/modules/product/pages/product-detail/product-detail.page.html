@@ -123,28 +123,55 @@
         </div>
     </div>
     <ng-template #goToLoginRef let-data let-ref="dialogRef">
-        <nb-card>
-            <nb-card-header>
-                You not log in yet!
-                <button (click)="ref.close()" style="float:right" nbButton size="tiny">
-          <nb-icon icon="close"></nb-icon>
-        </button>
-            </nb-card-header>
-            <nb-card-body>Please log in first!</nb-card-body>
-            <nb-card-footer class="p-2 text-center">
-                <button status="primary" nbButton size="small" (click)="ref.close(); useLogin()">
-          Go to Login Page
-        </button>
-            </nb-card-footer>
-        </nb-card>
-    </ng-template>
-    <ng-template #contactRef let-data let-ref="dialogRef">
-        <nb-card>
+        <nb-card class="card position-relative">
+            <ngx-spinner [name]="'support-form'" bdColor="#e5e5e5" [style.opacity]="'0.8'" [zIndex]="999" size="medium" color="#3de2ab" type="ball-clip-rotate-multiple" [fullScreen]="false"></ngx-spinner>
             <nb-card-header>
                 Support form
                 <button (click)="ref.close()" style="float:right" nbButton size="tiny">
           <nb-icon icon="close"></nb-icon>
         </button>
+            </nb-card-header>
+            <nb-card-body [formGroup]="form">
+                <span style="display: block; margin-bottom: 0.5rem; text-transform: capitalize; font-weight: 600;" [class.text-danger]="form.get('fullname').invalid && (form.get('fullname').touched || form.get('fullname').dirty)">Fullname <span class="text-danger">*</span></span>
+                <nb-form-field style="width: 100%; margin-bottom: 1rem;">
+                    <input style="height: 3rem;" [status]="form.get('fullname').invalid && (form.get('fullname').touched || form.get('fullname').dirty) ? 'danger' : 'basic'" fullWidth nz-dropdown [placeholder]="'Fullname'" shape="rectangle" [formControl]="form.get('fullname')"
+                        nbInput size="large" />
+                </nb-form-field>
+                <span *ngIf="form.get('fullname').invalid && (form.get('fullname').touched || form.get('fullname').dirty)" class="text-danger mb-3 display-block font-weight-bold">Please fill fullname</span>
+                <span style="display: block; margin-bottom: 0.5rem; font-weight: 600;" [class.text-danger]="form.get('phone').invalid && (form.get('phone').touched || form.get('phone').dirty)">Phone <span class="text-danger">*</span></span>
+                <nb-form-field style="width: 100%; margin-bottom: 1rem;">
+                    <nb-icon nbPrefix icon="phone-outline"></nb-icon>
+                    <input style="height: 3rem;" [status]="form.get('phone').invalid && (form.get('phone').touched || form.get('phone').dirty) ? 'danger' : 'basic'" fullWidth nz-dropdown [placeholder]="'Phone'" shape="rectangle" [formControl]="form.get('phone')" nbInput
+                        size="large" />
+                </nb-form-field>
+                <span *ngIf="(form.get('phone').errors?.required || form.get('phone').errors?.pattern) && (form.get('phone').touched || form.get('phone').dirty)" class="text-danger mb-3 display-block font-weight-bold">Please fill correct phone format (Ex: 0902818547)</span>
+                <span *ngIf="form.get('phone').errors?.duplicate && (form.get('phone').touched || form.get('phone').dirty)" class="text-danger mb-3 display-block font-weight-bold">Please fill another phone. Because this phone is exsited</span>
+                <span style="display: block; margin-bottom: 0.5rem; font-weight: 600;" [class.text-danger]="form.get('email').invalid && (form.get('email').touched || form.get('email').dirty)">Email <span class="text-danger">*</span></span>
+                <nb-form-field class="not-search" style="width: 100%; margin-bottom: 1rem;">
+                    <nb-icon nbPrefix icon="email-outline"></nb-icon>
+                    <input style="height: 3rem;" [status]="form.get('email').invalid && (form.get('email').touched || form.get('email').dirty) ? 'danger' : 'basic'" fullWidth nz-dropdown [placeholder]="'Email'" shape="rectangle" [formControl]="form.get('email')" nbInput
+                        size="large" />
+                </nb-form-field>
+                <span *ngIf="(form.get('email').invalid || form.get('email').errors?.pattern) && (form.get('email').touched || form.get('email').dirty)" class="text-danger mb-3 display-block font-weight-bold">Please fill correct email format (Ex: vinhdkse62975@fpt.edu.vn)</span>
+                <nb-form-field style="width: 100%;">
+                    <textarea #area placeHolder="Write something you want to support for this product (Optional) or only click send" fullWidth [formControl]="form.get('description')" rows="7" nbInput></textarea>
+                </nb-form-field>
+            </nb-card-body>
+            <nb-card-footer class="p-2 text-center">
+                <button status="primary" nbButton size="small" (click)="useSupportUnLogin(ref)">
+          Send
+        </button>
+            </nb-card-footer>
+        </nb-card>
+    </ng-template>
+    <ng-template #contactRef let-data let-ref="dialogRef">
+        <nb-card class="card position-relative">
+            <ngx-spinner [name]="'support-form'" bdColor="#e5e5e5" [style.opacity]="'0.8'" [zIndex]="999" size="medium" color="#3de2ab" type="ball-clip-rotate-multiple" [fullScreen]="false"></ngx-spinner>
+            <nb-card-header>
+                Support form
+                <button (click)="ref.close()" style="float:right" nbButton size="tiny">
+              <nb-icon icon="close"></nb-icon>
+            </button>
             </nb-card-header>
             <nb-card-body>
                 <nb-form-field style="width: 100%;">
@@ -153,8 +180,8 @@
             </nb-card-body>
             <nb-card-footer class="p-2 text-center">
                 <button status="primary" nbButton size="small" (click)="useSupport(ref)">
-          Send
-        </button>
+              Send
+            </button>
             </nb-card-footer>
         </nb-card>
     </ng-template>

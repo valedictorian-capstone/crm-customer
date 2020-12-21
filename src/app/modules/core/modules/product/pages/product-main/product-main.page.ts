@@ -2,11 +2,13 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ProductService, GlobalService, CategoryService, TicketService } from '@services';
 import { CategoryVM, ProductVM } from '@view-models';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { environment } from '@environments/environment';
 import swal from 'sweetalert2';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-product-main',
@@ -21,6 +23,7 @@ export class ProductMainPage implements OnInit {
   stage = 'done';
   description = '';
   showSearch = false;
+  form: FormGroup;
   constructor(
     protected readonly productService: ProductService,
     protected readonly categoryService: CategoryService,
@@ -30,6 +33,12 @@ export class ProductMainPage implements OnInit {
     protected readonly spinner: NgxSpinnerService,
     protected readonly router: Router,
   ) {
+    this.form = new FormGroup({
+      description: new FormControl(''),
+      phone: new FormControl('', [Validators.required, Validators.pattern(/^(\(\d{2,4}\)\s{0,1}\d{6,9})$|^\d{8,13}$|^\d{3,5}\s?\d{3}\s?\d{3,4}$|^[\d\(\)\s\-\/]{6,}$/)]),
+      fullname: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+    })
   }
 
   ngOnInit() {
@@ -69,14 +78,14 @@ export class ProductMainPage implements OnInit {
       this.spinner.hide('product-main');
     }, 1000);
   }
-  useContact = (templateGotoLogin: TemplateRef<any>, templateSupport: TemplateRef<any>, name?: string) => {
+  useContact = (templateGotoLogin: TemplateRef<any>, templateSupport: TemplateRef<any>, name: string) => {
     if (localStorage.getItem(environment.token)) {
       this.useDialog(templateSupport, name);
     } else {
-      this.useDialog(templateGotoLogin);
+      this.useDialog(templateGotoLogin, name);
     }
   }
-  useDialog = (template: TemplateRef<any>, name?: string) => {
+  useDialog = (template: TemplateRef<any>, name: string) => {
     this.dialogService.open(template, { closeOnBackdropClick: true, context: {name} });
   }
   usePhone = () => {
@@ -96,5 +105,31 @@ export class ProductMainPage implements OnInit {
       this.description = '';
       swal.fire('Your support form have been send!', 'Thask for your attention! We will contact you soon!', 'success');
     });
+  }
+  useSupportUnLogin = (ref: NbDialogRef<any>, name: string) => {
+    this.spinner.show('support-form');
+    this.ticketService.botInsert({
+      description:
+        'Fullname: ' + this.form.value.fullname + '<br>' +
+        'Email: ' + this.form.value.email + '<br>' +
+        'Phone: ' + this.form.value.phone + '<br>' +
+        'Content: ' + this.form.value.description + `<br>Service name: ${name}`,
+      type: 'deal'
+    } as any)
+      .pipe(
+        tap(() => {
+          swal.fire('Your support form have been sent!', 'Thanks for your attention! We will contact you soon!', 'success');
+        }),
+        catchError(() => {
+          swal.fire('', 'Your support form send fail! Please try again!', 'error');
+          return of(undefined);
+        }),
+        finalize(() => {
+          this.spinner.hide('support-form');
+          ref.close();
+          this.form.reset();
+        })
+      )
+      .subscribe();
   }
 }

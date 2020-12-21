@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { pluck, switchMap, tap, finalize, catchError } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { of } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-product-detail',
@@ -19,6 +20,7 @@ import { of } from 'rxjs';
 export class ProductDetailPage implements OnInit {
   product: ProductVM;
   comments: CommentVM[] = [];
+  form: FormGroup;
   description = '';
   oneStart = {
     percent: 0,
@@ -55,7 +57,14 @@ export class ProductDetailPage implements OnInit {
     protected readonly commentService: CommentService,
     protected readonly router: Router,
     protected readonly socket: Socket,
-  ) { }
+  ) {
+    this.form = new FormGroup({
+      description: new FormControl(''),
+      phone: new FormControl('', [Validators.required, Validators.pattern(/^(\(\d{2,4}\)\s{0,1}\d{6,9})$|^\d{8,13}$|^\d{3,5}\s?\d{3}\s?\d{3,4}$|^[\d\(\)\s\-\/]{6,}$/)]),
+      fullname: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+    })
+  }
 
   ngOnInit() {
     this.useShowSpinner();
@@ -178,10 +187,35 @@ export class ProductDetailPage implements OnInit {
   useSupport = (ref: NbDialogRef<any>) => {
     ref.close();
     this.ticketService.insert({
-      description: this.description,
+      description: this.description + `<br>Product name: ${this.product.name}`,
       type: 'deal',
     } as any).subscribe((data) => {
       swal.fire('Your support form have been send!', 'Thask for your attention! We will contact you soon!', 'success');
     });
+  }
+  useSupportUnLogin = (ref: NbDialogRef<any>) => {
+    this.spinner.show('support-form');
+    this.ticketService.botInsert({
+      description:
+      'Fullname: ' + this.form.value.fullname + '<br>' +
+      'Email: ' + this.form.value.email + '<br>' +
+      'Phone: ' + this.form.value.phone + '<br>' +
+      'Content: ' + this.form.value.description + `<br>Product name: ${this.product.name}`,
+    type: 'deal'
+    } as any) .pipe(
+      tap(() => {
+        swal.fire('Your support form have been sent!', 'Thanks for your attention! We will contact you soon!', 'success');
+      }),
+      catchError(() => {
+        swal.fire('', 'Your support form send fail! Please try again!', 'error');
+        return of(undefined);
+      }),
+      finalize(() => {
+        this.spinner.hide('support-form');
+        ref.close();
+        this.form.reset();
+      })
+    )
+    .subscribe();
   }
 }
