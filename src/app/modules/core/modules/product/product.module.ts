@@ -5,7 +5,8 @@ import {
 } from './components';
 import {
   ProductMainPage,
-  ProductDetailPage
+  ProductDetailPage,
+  ProductThankYouPage
 } from './pages';
 // import { } from './directives';
 // import { } from './pipes';
@@ -16,7 +17,8 @@ const COMPONENTS = [
 
 const PAGES = [
   ProductMainPage,
-  ProductDetailPage
+  ProductDetailPage,
+  ProductThankYouPage
 ];
 
 const PIPES = [

@@ -5,9 +5,6 @@
             <button (click)="useLink('')" style="position: absolute; left: 56px;" nbButton shape="round">
               <nb-icon icon="home-outline"></nb-icon>
             </button>
-            <button *ngIf="customer" (click)="useLink('event')" style="position: absolute; left: calc(56px + 3rem);" nbButton shape="round">
-              <nb-icon icon="calendar-outline"></nb-icon>
-            </button>
             <app-breadcrumb></app-breadcrumb>
             <app-notification *ngIf="customer" [customer]="customer"></app-notification>
             <app-user *ngIf="customer" [customer]="customer"></app-user>
