@@ -35,6 +35,7 @@ export const environment = {
       customer: {
         main: 'api/v1/Customer',
         getById: 'api/v1/Customer/',
+        follow: 'api/v1/Campaign/contact',
         active: 'api/v1/Customer/Active',
         deactive: 'api/v1/Customer/Deactive',
       },
