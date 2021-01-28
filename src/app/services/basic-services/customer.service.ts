@@ -43,7 +43,7 @@ export class CustomerService {
   }
 
   public readonly follow = (customerId: string, campaignId: string): Observable<any> => {
-    return this.httpClient.post<any>(`${environment.apiEndpont}${environment.api.basic.customer.getById}contact/${customerId}/${campaignId}`, {});
+    return this.httpClient.post<any>(`${environment.apiEndpont}${environment.api.basic.customer.follow}/${customerId}/${campaignId}`, {});
   }
 
   public readonly deactive = (ids: string[]): Observable<CustomerVM> => {
